@@ -11,7 +11,7 @@ const Nav = () => {
             </NavLink>
             <NavLink
                 className={(navData) => (navData.isActive ? "nav__link nav__link--active" : "nav__link")}
-                to='/calculator'>
+                to='/krzadamczak/calculator'>
                 Kalkulator
             </NavLink>
         </nav>
