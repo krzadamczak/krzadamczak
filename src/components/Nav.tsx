@@ -1,11 +1,19 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
+import "./Nav.css";
 
 const Nav = () => {
     return (
-        <nav>
-            <NavLink to='.'>Strona główna</NavLink>
-            <NavLink to='calculator'>Kalkulator</NavLink>
+        <nav className='nav'>
+            <NavLink
+                className={(navData) => (navData.isActive ? "nav__link nav__link--active" : "nav__link")}
+                to='/krzadamczak'>
+                Strona główna
+            </NavLink>
+            <NavLink
+                className={(navData) => (navData.isActive ? "nav__link nav__link--active" : "nav__link")}
+                to='/calculator'>
+                Kalkulator
+            </NavLink>
         </nav>
     );
 };
