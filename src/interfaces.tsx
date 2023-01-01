@@ -3,5 +3,6 @@ export interface Equation {
     secondNumber: string;
     operation: string;
     output: number | string;
-    id?: string;
+    id: string;
+    createdAt: number;
 }
