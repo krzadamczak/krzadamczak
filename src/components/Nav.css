@@ -1,0 +1,14 @@
+.nav {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+.nav__link {
+    text-decoration: none;
+    color: #000;
+}
+.nav__link--active {
+    color: #00be0a;
+    font-weight: 600;
+}
