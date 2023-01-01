@@ -7,7 +7,7 @@ function App() {
     return (
         <HashRouter>
             <Routes>
-                <Route path='/krzadamczak' element={<Layout />}>
+                <Route path='/' element={<Layout />}>
                     <Route index element={<LastEquations />} />
                     <Route path='calculator' element={<Calculator />} />
                 </Route>
