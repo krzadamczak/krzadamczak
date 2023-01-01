@@ -3,6 +3,7 @@ import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { Equation } from "../interfaces";
 import { Operation } from "../operations";
+import "./LastCalculations.css";
 
 const LastEquations = () => {
     const wordToSymbol = (operation: string): string => {
@@ -27,24 +28,21 @@ const LastEquations = () => {
             querySnapshot.forEach((item) => {
                 result.push(item.data() as Equation);
             });
+
+            result.sort((a, b) => b.createdAt - a.createdAt);
             setEquations(result);
         };
         getFromDB();
     }, []);
     return (
-        <div>
+        <div className='last-calculations'>
             {equations.length > 0 &&
                 equations.map((equation) => {
-                    {
-                        console.log(equation);
-                    }
                     return (
                         <p key={equation.id}>
-                            <span>{equation.firstNumber}</span>
-                            <span>{wordToSymbol(equation.operation)}</span>
-                            <span>{equation.secondNumber}</span>
-                            <span>=</span>
-                            <span>{equation.output}</span>
+                            {`${equation.firstNumber} ${wordToSymbol(equation.operation)} ${equation.secondNumber} = ${
+                                equation.output
+                            }`}
                         </p>
                     );
                 })}
