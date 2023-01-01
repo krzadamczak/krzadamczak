@@ -2,33 +2,22 @@ import { FormEvent, useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { nanoid } from "nanoid";
-
-interface Equation {
-    firstNumber: string;
-    secondNumber: string;
-    operation: string;
-    output: number | string;
-}
+import { Equation } from "../interfaces";
+import { Operation } from "../operations";
 
 const Calculator = () => {
-    const OPERATION = {
-        ADDITION: "addition",
-        SUBTRACTION: "subtraction",
-        MULTIPLICATION: "multiplication",
-        DIVISION: "division",
-    };
-    const [equation, setEquation] = useState({
+    const [equation, setEquation] = useState<Equation>({
         firstNumber: "",
         secondNumber: "",
         operation: "",
         output: "",
-    } as Equation);
+    });
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const output = calculate(Number(equation.firstNumber), Number(equation.secondNumber), equation.operation);
         const id = nanoid();
-        await setDoc(doc(db, "calculations", id), { ...equation, output });
-        setEquation((prevEquation) => ({ ...prevEquation, output }));
+        await setDoc(doc(db, "calculations", id), { ...equation, output, id });
+        setEquation((prevEquation) => ({ ...prevEquation, output, id }));
     };
     const handleChange = async (e: FormEvent<HTMLInputElement>) => {
         const { name: key, value } = e.currentTarget;
@@ -37,13 +26,13 @@ const Calculator = () => {
     };
     const calculate = (firstNumber: number, secondNumber: number, operation: string): number | string => {
         switch (operation) {
-            case OPERATION.ADDITION:
+            case Operation.Addition:
                 return firstNumber + secondNumber;
-            case OPERATION.SUBTRACTION:
+            case Operation.Subtraction:
                 return firstNumber - secondNumber;
-            case OPERATION.MULTIPLICATION:
+            case Operation.Multiplication:
                 return firstNumber * secondNumber;
-            case OPERATION.DIVISION:
+            case Operation.Division:
                 if (secondNumber === 0) return "Nie można dzielić przez 0";
                 return firstNumber / secondNumber;
             default:

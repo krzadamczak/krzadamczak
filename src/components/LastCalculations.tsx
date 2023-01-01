@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-interface Equation {
-    firstNumber: string;
-    secondNumber: string;
-    operation: string;
-    output: number | string;
-}
+import { Equation } from "../interfaces";
+import { Operation } from "../operations";
+
 const LastEquations = () => {
+    const wordToSymbol = (operation: string): string => {
+        switch (operation) {
+            case Operation.Addition:
+                return "+";
+            case Operation.Subtraction:
+                return "-";
+            case Operation.Division:
+                return "/";
+            case Operation.Multiplication:
+                return "*";
+            default:
+                return operation;
+        }
+    };
     const [equations, setEquations] = useState([] as Array<Equation>);
     useEffect(() => {
         const getFromDB = async () => {
@@ -16,7 +27,6 @@ const LastEquations = () => {
             querySnapshot.forEach((item) => {
                 result.push(item.data() as Equation);
             });
-            console.log(result);
             setEquations(result);
         };
         getFromDB();
@@ -24,8 +34,19 @@ const LastEquations = () => {
     return (
         <div>
             {equations.length > 0 &&
-                equations.map((equation, index) => {
-                    return <p key={index}>{equation.output}</p>;
+                equations.map((equation) => {
+                    {
+                        console.log(equation);
+                    }
+                    return (
+                        <p key={equation.id}>
+                            <span>{equation.firstNumber}</span>
+                            <span>{wordToSymbol(equation.operation)}</span>
+                            <span>{equation.secondNumber}</span>
+                            <span>=</span>
+                            <span>{equation.output}</span>
+                        </p>
+                    );
                 })}
         </div>
     );
